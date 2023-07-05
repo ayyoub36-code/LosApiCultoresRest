@@ -1,6 +1,5 @@
 package fr.fms.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,24 +8,22 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Training implements Serializable {
+public class OrderItem implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String description;
-    private double price;
-    private int quantity;
-
-    private String photo;
 
     @ManyToOne
-    //@JsonBackReference
-    private Category category;
+    private Training training;
+    @ManyToOne
+    private Order order;
 
 }

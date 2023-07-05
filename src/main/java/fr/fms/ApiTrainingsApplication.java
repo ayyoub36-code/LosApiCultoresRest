@@ -1,6 +1,8 @@
 package fr.fms;
 
+import fr.fms.dao.CategoryRepository;
 import fr.fms.dao.TrainingRepository;
+import fr.fms.entities.Category;
 import fr.fms.entities.Training;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -9,23 +11,37 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ApiTrainingsApplication implements CommandLineRunner {
-	@Autowired
-	TrainingRepository trainingRepository;
-	public static void main(String[] args) {
-		SpringApplication.run(ApiTrainingsApplication.class, args);
-	}
+    @Autowired
+    TrainingRepository trainingRepository;
 
-	@Override
-	public void run(String... args) throws Exception {
-		generateData();
-	}
+    @Autowired
+    CategoryRepository categoryRepository;
+    // folder images
+    private static final String FOLDER_IMAGE = "C:\\Users\\MehdiouiM\\Desktop\\Images\\";
 
-	private void generateData() {
-		trainingRepository.save(new Training(null, "Java", "Java SE 8 sur 5 jours", 3500, 1));
-		trainingRepository.save(new Training(null, "DotNet", "DotNet & entity framework sur 5 jours", 2750, 1));
-		trainingRepository.save(new Training(null, "PowerBi", "Business Intelligence sur 5 jours", 3000, 1));
-		trainingRepository.save(new Training(null, "NodeJs", "Prise en main de NodeJs/Express sur 2 jours", 1400, 1));
-		trainingRepository.save(new Training(null, "Php", "Initiation au Dév/Web avec Php sur 4 jours", 1300, 1));
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ApiTrainingsApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        //generateData();
+    }
+
+ /*   private void generateData() {
+        Category dev = categoryRepository.save(new Category(null, "DevWeb", null));
+        Category cms = categoryRepository.save(new Category(null, "CMS", null));
+        Category bureatique = categoryRepository.save(new Category(null, "Bureautique", null));
+        Category ia = categoryRepository.save(new Category(null, "IA", null));
+
+        trainingRepository.save(new Training(null, "Java", "Java SE 8 sur 5 jours", 3500, 1, FOLDER_IMAGE + "java-logo.png", dev));
+        trainingRepository.save(new Training(null, "DotNet", "DotNet & entity framework sur 5 jours", 2750, 1, FOLDER_IMAGE + "dotNet.png", dev));
+        trainingRepository.save(new Training(null, "PowerBi", "Business Intelligence sur 5 jours", 3000, 1, FOLDER_IMAGE + "default.png", ia));
+        trainingRepository.save(new Training(null, "NodeJs", "Prise en main de NodeJs/Express sur 2 jours", 1400, 1, FOLDER_IMAGE + "node.png", dev));
+        trainingRepository.save(new Training(null, "Php", "Initiation au Dev/Web avec Php sur 4 jours", 1300, 1, FOLDER_IMAGE + "php.png", dev));
+        trainingRepository.save(new Training(null, "WordPress", "Découverte du cms wordpress sur 4 jours", 1100, 1, FOLDER_IMAGE + "wordPress.png", cms));
+        trainingRepository.save(new Training(null, "Excel", "Initiation au tableur Excel sur 4 jours", 700, 1, FOLDER_IMAGE + "excel.png", bureatique));
+        trainingRepository.save(new Training(null, "PowerPoint", "Initiation à la création de powerPoint  sur 4 jours", 800, 1, FOLDER_IMAGE + "default.png", bureatique));
+   } */
 
 }
