@@ -2,17 +2,29 @@ package fr.fms;
 
 import fr.fms.dao.CategoryRepository;
 import fr.fms.dao.TrainingRepository;
+import fr.fms.entities.AppRole;
+import fr.fms.entities.AppUser;
 import fr.fms.entities.Category;
 import fr.fms.entities.Training;
+import fr.fms.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.ArrayList;
 
 @SpringBootApplication
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class ApiTrainingsApplication implements CommandLineRunner {
     @Autowired
     TrainingRepository trainingRepository;
+    @Autowired
+    AccountService accountService;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -26,7 +38,26 @@ public class ApiTrainingsApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //generateData();
+
+        // generateUsers();
     }
+
+    private void generateUsers() {
+        accountService.saveUser(new AppUser(null, "user", "1234", new ArrayList<>()));
+        accountService.saveUser(new AppUser(null, "admin", "1234", new ArrayList<>()));
+        accountService.saveRole(new AppRole(null, "ADMIN"));
+        accountService.saveRole(new AppRole(null, "USER"));
+        accountService.addRoleToUser("user", "USER");
+        accountService.addRoleToUser("admin", "USER");
+        accountService.addRoleToUser("admin", "ADMIN");
+
+    }
+
+    @Bean
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 
  /*   private void generateData() {
         Category dev = categoryRepository.save(new Category(null, "DevWeb", null));
