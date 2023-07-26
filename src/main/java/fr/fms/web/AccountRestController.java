@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,15 @@ public class AccountRestController {
     @PostAuthorize("hasAuthority('ADMIN')")
     void postRoleUser(@RequestBody UserRoleForm userRole) {
         accountService.addRoleToUser(userRole.getUsername(), userRole.getUsername());
+    }
+
+    /*
+     *
+     * */
+    @GetMapping("/profile")
+    //@PostAuthorize("hasAuthority('USER')")
+    public AppUser profile(Principal principal) {
+        return accountService.findUserByUsername(principal.getName());
     }
 
 

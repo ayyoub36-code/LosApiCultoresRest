@@ -29,4 +29,5 @@ public class Training implements Serializable {
     //@JsonBackReference
     private Category category;
 
+
 }
