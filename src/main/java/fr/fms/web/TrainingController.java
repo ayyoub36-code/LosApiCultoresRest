@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.fms.entities.Training;
 import fr.fms.exceptions.RecordNotFoundException;
 import fr.fms.service.ImplTrainingService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +19,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class TrainingController {
 
     // folder images
@@ -61,9 +65,18 @@ public class TrainingController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/trainings/{id}")
-    public void deleteTraining(@PathVariable("id") Long id) {
-        implTrainingService.deleteTraining(id);
+    @DeleteMapping(value = "/trainings/{id}")
+    public ResponseEntity<?> deleteTraining(@PathVariable("id") Long id) {
+
+        try {
+            implTrainingService.deleteTraining(id);
+        }
+        catch (Exception e) {
+            log.error("Pb avec suppression de la formation d'id : {}",id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Formation avec id = " + id + " introuvable.");
+        }
+        log.info("suppression de la formation d'id : {}", id);
+        return ResponseEntity.status(HttpStatus.OK).body("Formation avec id = " + id + " Supprimé avec succés !");
     }
 
     @GetMapping("/trainings/{id}")

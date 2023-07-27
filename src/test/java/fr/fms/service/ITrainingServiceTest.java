@@ -51,7 +51,7 @@ class ITrainingServiceTest {
 
         //then
         assertEquals(2, lst.size());
-        assertEquals(trainingList.get(0).getDescription(), lst.get(0).getDescription());
+        assertEquals("Java SE 8 sur 5 jours", lst.get(0).getDescription());
 
 
     }

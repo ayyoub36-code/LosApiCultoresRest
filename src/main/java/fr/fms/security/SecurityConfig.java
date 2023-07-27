@@ -54,12 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         //http.formLogin();
-       http.cors();
+        http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/refreshToken/**","/login/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"api/trainings/**").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
+        //http.authorizeRequests().anyRequest().authenticated();
     /* http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/users/**").hasAuthority("USER");*/
         http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
